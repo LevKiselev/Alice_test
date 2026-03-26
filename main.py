@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import logging
 from waitress import serve
-from random import randrange
+from random import choice
 import json
 
 app = Flask(__name__)
@@ -88,7 +88,7 @@ def handle_dialog(req, res):
 
     # Если нет, то убеждаем!
     tula_brands = ['ПРЯНИКИ','САМОВАРЫ', 'ТОЛСТОЙ', 'ПАСТИЛА', 'музей оружия']
-    res['response']['text'] = f'Тут {tula_brands[randrange(len(tula_brands))]}, может все-таки приедешь?'
+    res['response']['text'] = f'Тут {choice(tula_brands)}, может все-таки приедешь?'
     # res['response']['buttons'] = get_suggests(user_id)
 
 
