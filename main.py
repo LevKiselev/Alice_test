@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import logging
 from waitress import serve
+from random import randrange
 import json
 
 app = Flask(__name__)
@@ -57,12 +58,12 @@ def handle_dialog(req, res):
         sessionStorage[user_id] = {
             'suggests': [
                 "Не хочу.",
-                "Не буду.",
+                "Нет.",
                 "Отстань!",
             ]
         }
         # Заполняем текст ответа
-        res['response']['text'] = 'Привет! Купи слона!'
+        res['response']['text'] = 'Привет! Ты хочешь приехать в Тулу?'
         # Получим подсказки
         res['response']['buttons'] = get_suggests(user_id)
         return
@@ -74,17 +75,20 @@ def handle_dialog(req, res):
     # Подумайте, все ли в этом фрагменте написано "красиво"?
     if req['request']['original_utterance'].lower() in [
         'ладно',
-        'куплю',
-        'покупаю',
-        'хорошо'
+        'согласен',
+        'приеду',
+        'хорошо',
+        'да',
+        'уговорила'
     ]:
         # Пользователь согласился, прощаемся.
-        res['response']['text'] = 'Слона можно найти на Яндекс.Маркете!'
+        res['response']['text'] = 'Хорошо, ждем тебя в Туле!'
         res['response']['end_session'] = True
         return
 
-    # Если нет, то убеждаем его купить слона!
-    res['response']['text'] = 'Все говорят "%s", а ты купи слона!' % (
+    # Если нет, то убеждаем!
+    tula_brands = ['ПРЯНИКИ','САМОВАРЫ', 'ТОЛСТОЙ', 'ПАСТИЛА', 'музей оружия']
+    res['response']['text'] = f'Тут {tula_brands[randrange(len(tula_brands))]}, может все-таки приедешь?' % (
         req['request']['original_utterance']
     )
     res['response']['buttons'] = get_suggests(user_id)
@@ -109,7 +113,7 @@ def get_suggests(user_id):
     if len(suggests) < 2:
         suggests.append({
             "title": "Ладно",
-            "url": "https://market.yandex.ru/search?text=слон",
+            "url": "https://market.yandex.ru/search?text=Тула",
             "hide": True
         })
 
