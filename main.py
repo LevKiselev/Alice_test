@@ -89,7 +89,7 @@ def handle_dialog(req, res):
     # Если нет, то убеждаем!
     tula_brands = ['ПРЯНИКИ','САМОВАРЫ', 'ТОЛСТОЙ', 'ПАСТИЛА', 'музей оружия']
     res['response']['text'] = f'Тут {tula_brands[randrange(len(tula_brands))]}, может все-таки приедешь?'
-    res['response']['buttons'] = get_suggests(user_id)
+    # res['response']['buttons'] = get_suggests(user_id)
 
 
 # Функция возвращает две подсказки для ответа.
