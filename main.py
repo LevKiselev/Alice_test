@@ -52,6 +52,15 @@ def main():
 
     return jsonify(response)
 
+def get_first_name(req):
+    # перебираем сущности
+    for entity in req['request']['nlu']['entities']:
+        # находим сущность с типом 'YANDEX.FIO'
+        if entity['type'] == 'YANDEX.FIO':
+            # Если есть сущность с ключом 'first_name', то возвращаем её значение.
+            # Во всех остальных случаях возвращаем None.
+            return entity['value'].get('first_name', None)
+
 
 def handle_dialog(req, res):
     user_id = req['session']['user_id']
@@ -68,11 +77,30 @@ def handle_dialog(req, res):
                 "Отстань!",
             ]
         }
-        # Заполняем текст ответа
-        res['response']['text'] = 'Привет! Ты хочешь приехать в Тулу?'
-        # Получим подсказки
-        res['response']['buttons'] = get_suggests(user_id)
+        res['response']['text'] = 'Привет! Назови свое имя!'
+        # создаем словарь в который в будущем положим имя пользователя
+        sessionStorage[user_id] = {
+            'first_name': None
+        }
         return
+
+    # если пользователь не новый, то попадаем сюда.
+    # если поле имени пустое, то это говорит о том,
+    # что пользователь еще не представился.
+    if sessionStorage[user_id]['first_name'] is None:
+        # в последнем его сообщение ищем имя.
+        first_name = get_first_name(req)
+        # если не нашли, то сообщаем пользователю что не расслышали.
+        if first_name is None:
+            res['response']['text'] = \
+                'Не расслышала имя. Повтори, пожалуйста!'
+        # если нашли, то приветствуем пользователя.
+        # И спрашиваем какой город он хочет увидеть.
+        else:
+            sessionStorage[user_id]['first_name'] = first_name
+            res['response']['text'] = 'Привет, ' + first_name.title() + '. Ты хочешь приехать в Тулу?'
+            res['response']['buttons'] = get_suggests(user_id)
+            return
 
     # Сюда дойдем только, если пользователь не новый, и разговор с Алисой уже был начат
     # Обрабатываем ответ пользователя.
