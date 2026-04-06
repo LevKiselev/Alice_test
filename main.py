@@ -8,6 +8,12 @@ app = Flask(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
+pics = ['1540737/22bc03a0b5c437503ea7', '1540737/00c3849b8c8031529f89', '1540737/32110ea8a8a301156156',
+        '1030494/6e74d93d8cb63c838913', '1540737/20b64de5289956963219', '997614/4e6489965e71a1be1f8f',
+        '213044/9e5f95f977ae846c2f3c', '1521359/f7f74ecd5d7825cfad63', '1521359/76960f62908e4fbdbd63',
+        '937455/a8ad21d2b129d7e1fc8c', '1533899/f10e9edd4032654505b5', '997614/0b930ef41bc6b00fa1cb',
+        '937455/560d04e8a9d6cda798ec', '937455/f5fea7c589fc9e8016ec']
+
 # Создадим словарь, чтобы для каждой сессии общения с навыком хранились подсказки, которые видел пользователь.
 # Это поможет нам немного разнообразить подсказки ответов (buttons в JSON ответа).
 # Когда новый пользователь напишет нашему навыку, то мы сохраним в этот словарь запись формата
@@ -89,7 +95,24 @@ def handle_dialog(req, res):
     # Если нет, то убеждаем!
     tula_brands = ['ПРЯНИКИ','САМОВАРЫ', 'ТОЛСТОЙ', 'ПАСТИЛА', 'музей оружия']
     res['response']['text'] = f'Тут {choice(tula_brands)}, может все-таки приедешь?'
-    # res['response']['buttons'] = get_suggests(user_id)
+    # Выводим картинку
+    res['response']['card'] = {}
+    res['response']['card']['type'] = 'BigImage'
+    res['response']['card']['title'] = 'Красивая картинка Тулы'
+    res['response']['card']['image_id'] = choice(pics)
+    # Кнопка
+    res['response']['buttons'] = [
+        {
+            'title': 'Фото-Тула',
+            'hide': False,
+            'url': 'https://foto-tula.ru/',
+        },
+        {
+            'title': 'Тульский политех',
+            'hide': False,
+            'url': 'https://tulsu.ru/',
+        }
+    ]
 
 
 # Функция возвращает две подсказки для ответа.
