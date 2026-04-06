@@ -126,7 +126,7 @@ def handle_dialog(req, res):
     # Выводим картинку
     res['response']['card'] = {}
     res['response']['card']['type'] = 'BigImage'
-    res['response']['card']['title'] = 'Красивая картинка Тулы'
+    res['response']['card']['title'] = f'Тут {choice(tula_brands)}, может все-таки приедешь?'
     res['response']['card']['image_id'] = choice(pics)
     # Кнопка
     res['response']['buttons'] = [
