@@ -11,7 +11,7 @@
   },
   "session": {
     "message_id": 0,
-    "session_id": "1e6620dc-30cf-4830-9583-a4ac0ef137d7",
+    "session_id": "4088d07c-0585-41b6-9809-8a72b105b586",
     "skill_id": "6ad2b861-4343-46ae-9db8-d62eb005d0af",
     "user": {
       "user_id": "8CF3ED85FC11AB63244F3E1B3C6177149A332AA7739F599955C88F13C2AB316E"
@@ -19,8 +19,8 @@
     "application": {
       "application_id": "D672A387D1E2E5AADB1DB46B344888D1AC49DF0B71618B5CEF225B8286F12898"
     },
-    "new": true,
-    "user_id": "D672A387D1E2E5AADB1DB46B344888D1AC49DF0B71618B5CEF225B8286F12898"
+    "user_id": "D672A387D1E2E5AADB1DB46B344888D1AC49DF0B71618B5CEF225B8286F12898",
+    "new": true
   },
   "request": {
     "command": "",

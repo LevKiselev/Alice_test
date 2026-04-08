@@ -70,23 +70,23 @@ def handle_dialog(req, res):
         # Инициализируем сессию и поприветствуем его.
         # Запишем подсказки, которые мы ему покажем в первый раз
 
+        res['response']['text'] = 'Привет! Назови свое имя!'
+        # создаем словарь в который в будущем положим имя пользователя
         sessionStorage[user_id] = {
+            'first_name': None,
             'suggests': [
                 "Не хочу.",
                 "Нет.",
                 "Отстань!",
             ]
         }
-        res['response']['text'] = 'Привет! Назови свое имя!'
-        # создаем словарь в который в будущем положим имя пользователя
-        sessionStorage[user_id] = {
-            'first_name': None
-        }
+        # print(sessionStorage)
         return
 
     # если пользователь не новый, то попадаем сюда.
     # если поле имени пустое, то это говорит о том,
     # что пользователь еще не представился.
+    # print(sessionStorage)
     if sessionStorage[user_id]['first_name'] is None:
         # в последнем его сообщение ищем имя.
         first_name = get_first_name(req)
@@ -97,7 +97,7 @@ def handle_dialog(req, res):
         # И спрашиваем какой город он хочет увидеть.
         else:
             sessionStorage[user_id]['first_name'] = first_name
-            res['response']['text'] = 'Привет, ' + first_name + '. Ты хочешь приехать в Тулу?'
+            res['response']['text'] = 'Привет, ' + first_name.title() + '. Ты хочешь приехать в Тулу?'
             res['response']['buttons'] = get_suggests(user_id)
             return
 

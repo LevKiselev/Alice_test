@@ -11,7 +11,7 @@
   },
   "session": {
     "message_id": 1,
-    "session_id": "7a7f8199-2bc0-4cf3-8022-5221b891f27c",
+    "session_id": "4088d07c-0585-41b6-9809-8a72b105b586",
     "skill_id": "6ad2b861-4343-46ae-9db8-d62eb005d0af",
     "user": {
       "user_id": "8CF3ED85FC11AB63244F3E1B3C6177149A332AA7739F599955C88F13C2AB316E"
@@ -23,13 +23,24 @@
     "new": false
   },
   "request": {
-    "command": "нет",
-    "original_utterance": "Нет.",
+    "command": "петр",
+    "original_utterance": "Петр",
     "nlu": {
       "tokens": [
-        "нет"
+        "петр"
       ],
-      "entities": [],
+      "entities": [
+        {
+          "type": "YANDEX.FIO",
+          "tokens": {
+            "start": 0,
+            "end": 1
+          },
+          "value": {
+            "first_name": "петр"
+          }
+        }
+      ],
       "intents": {}
     },
     "markup": {
