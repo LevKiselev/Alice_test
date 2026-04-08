@@ -92,13 +92,12 @@ def handle_dialog(req, res):
         first_name = get_first_name(req)
         # если не нашли, то сообщаем пользователю что не расслышали.
         if first_name is None:
-            res['response']['text'] = \
-                'Не расслышала имя. Повтори, пожалуйста!'
+            res['response']['text'] = 'Не расслышала имя. Повтори, пожалуйста!'
         # если нашли, то приветствуем пользователя.
         # И спрашиваем какой город он хочет увидеть.
         else:
             sessionStorage[user_id]['first_name'] = first_name
-            res['response']['text'] = 'Привет, ' + first_name.title() + '. Ты хочешь приехать в Тулу?'
+            res['response']['text'] = 'Привет, ' + first_name + '. Ты хочешь приехать в Тулу?'
             res['response']['buttons'] = get_suggests(user_id)
             return
 
