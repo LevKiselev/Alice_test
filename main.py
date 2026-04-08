@@ -98,7 +98,7 @@ def handle_dialog(req, res):
         else:
             sessionStorage[user_id]['first_name'] = first_name
             res['response']['text'] = 'Привет, ' + first_name.title() + '. Ты хочешь приехать в Тулу?'
-            res['response']['buttons'] = get_suggests(user_id)
+            # res['response']['buttons'] = get_suggests(user_id)
             return
 
     # Сюда дойдем только, если пользователь не новый, и разговор с Алисой уже был начат
