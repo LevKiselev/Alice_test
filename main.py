@@ -118,7 +118,7 @@ def handle_dialog(req, res):
         res['response']['text'] = 'Хорошо, ждем тебя в Туле!'
         res['response']['card'] = {}
         res['response']['card']['type'] = 'BigImage'
-        res['response']['card']['title'] = f"{sessionStorage[user_id]['first_name']}, ждем тебя в Туле!"
+        res['response']['card']['title'] = f"{sessionStorage[user_id]['first_name'].title()}, ждем тебя в Туле!"
         res['response']['card']['image_id'] = choice(pics)
         res['response']['end_session'] = True
         return
