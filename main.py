@@ -75,9 +75,9 @@ def handle_dialog(req, res):
         sessionStorage[user_id] = {
             'first_name': None,
             'suggests': [
-                "Не хочу.",
-                "Нет.",
-                "Отстань!",
+                "Не хочу",
+                "Нет",
+                "Да",
             ]
         }
         # print(sessionStorage)
@@ -93,12 +93,12 @@ def handle_dialog(req, res):
         # если не нашли, то сообщаем пользователю что не расслышали.
         if first_name is None:
             res['response']['text'] = 'Не расслышала имя. Повтори, пожалуйста!'
+            return
         # если нашли, то приветствуем пользователя.
         # И спрашиваем какой город он хочет увидеть.
         else:
             sessionStorage[user_id]['first_name'] = first_name
             res['response']['text'] = 'Привет, ' + first_name.title() + '. Ты хочешь приехать в Тулу?'
-            # res['response']['buttons'] = get_suggests(user_id)
             return
 
     # Сюда дойдем только, если пользователь не новый, и разговор с Алисой уже был начат
@@ -116,13 +116,16 @@ def handle_dialog(req, res):
     ]:
         # Пользователь согласился, прощаемся.
         res['response']['text'] = 'Хорошо, ждем тебя в Туле!'
+        res['response']['card'] = {}
+        res['response']['card']['type'] = 'BigImage'
+        res['response']['card']['title'] = f"{sessionStorage[user_id]['first_name']}, ждем тебя в Туле!"
+        res['response']['card']['image_id'] = choice(pics)
         res['response']['end_session'] = True
         return
 
     # Если нет, то убеждаем!
     tula_brands = ['ПРЯНИКИ','САМОВАРЫ', 'ТОЛСТОЙ', 'ПАСТИЛА', 'музей оружия']
     res['response']['text'] = f'Тут {choice(tula_brands)}, может все-таки приедешь?'
-    # Выводим картинку
     res['response']['card'] = {}
     res['response']['card']['type'] = 'BigImage'
     res['response']['card']['title'] = f'Тут {choice(tula_brands)}, может все-таки приедешь?'
@@ -140,32 +143,6 @@ def handle_dialog(req, res):
             'url': 'https://tulsu.ru/',
         }
     ]
-
-
-# Функция возвращает две подсказки для ответа.
-def get_suggests(user_id):
-    session = sessionStorage[user_id]
-
-    # Выбираем две первые подсказки из массива.
-    suggests = [
-        {'title': suggest, 'hide': True}
-        for suggest in session['suggests'][:2]
-    ]
-
-    # Убираем первую подсказку, чтобы подсказки менялись каждый раз.
-    session['suggests'] = session['suggests'][1:]
-    sessionStorage[user_id] = session
-
-    # Если осталась только одна подсказка, предлагаем подсказку
-    # со ссылкой на Яндекс.Маркет.
-    if len(suggests) < 2:
-        suggests.append({
-            "title": "Ладно",
-            "url": "https://market.yandex.ru/search?text=Тульский пряник",
-            "hide": True
-        })
-
-    return suggests
 
 
 if __name__ == '__main__':
